@@ -1,7 +1,7 @@
 @echo off
 
 rem A menu-driven backup using Robocopy for Windows
-rem Copyright (C) 2017  Michael Kruzil
+rem Copyright (C) 2018  Michael Kruzil
 
 rem This program is free software: you can redistribute it and/or modify
 rem it under the terms of the GNU General Public License as published by
@@ -36,6 +36,10 @@ if "!option!"=="1" (
     set /p source="Enter the source path (or type 'quit' to exit): "
     echo.
 
+    rem Remove quotes added to the string by the user
+    rem See: https://ss64.com/nt/syntax-dequote.html
+    set source=!source:"=!
+
     if "!source!"=="quit" (
         goto goodbye
     ) else (
@@ -43,6 +47,9 @@ if "!option!"=="1" (
            :destination
             set /p destination="Enter the destination path (or type 'quit' to exit): "
             echo.
+
+            rem Remove quotes added to the string by the user
+            set destination=!destination:"=!
 
             if "!destination!"=="quit" (
                 goto goodbye
@@ -68,7 +75,7 @@ if "!option!"=="1" (
                         set /p create="The destination folder '!destination!' does not exist, would you like to create it (y/n)?
                         echo.
                         if "!create!"=="y" (
-                            mkdir "!destination!"
+                            mkdir !destination!
                             if not exist !destination! (
                                 echo Could not create destination folder^^! Please try again.
                                 echo.
@@ -80,11 +87,6 @@ if "!option!"=="1" (
                     )
 
                     cls
-
-                    rem Remove quotes added to the string by the user
-                    rem See: https://ss64.com/nt/syntax-dequote.html
-                    set source=!source:"=!
-                    set destination=!destination:"=!
 
                     echo ---------------------------------------------------
                     echo Confirm Copy Settings
@@ -124,7 +126,7 @@ if "!option!"=="1" (
                         if "!backslash!"=="\" (
                             set destination=!destination!\
                         )
-                        robocopy.exe "!source!" "!destination!" /e /z /copy:dat /dcopy:dat /xf "!log!" /xjd /r:1 /w:0 /v /fp /log:"!log!" /tee
+                        #robocopy.exe "!source!" "!destination!" /e /z /copy:dat /dcopy:dat /xf "!log!" /xjd /r:1 /w:0 /v /fp /log:"!log!" /tee
                         echo.
                         echo Done^^!
                         echo.
