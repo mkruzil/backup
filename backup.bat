@@ -126,7 +126,7 @@ if "!option!"=="1" (
                         if "!backslash!"=="\" (
                             set destination=!destination!\
                         )
-                        #robocopy.exe "!source!" "!destination!" /e /z /copy:dat /dcopy:dat /xf "!log!" /xjd /r:1 /w:0 /v /fp /log:"!log!" /tee
+                        robocopy.exe "!source!" "!destination!" /e /z /copy:dat /dcopy:dat /xf "!log!" /xjd /r:1 /w:0 /v /fp /log:"!log!" /tee
                         echo.
                         echo Done^^!
                         echo.
